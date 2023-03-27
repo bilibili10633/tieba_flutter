@@ -1,12 +1,10 @@
 # tieba
 
-A new Flutter project.
+贴吧Flutter（未完成）
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
+用flutter写的第三方贴吧客户端，目前发帖、消息等功能都未实现
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
