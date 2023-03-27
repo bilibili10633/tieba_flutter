@@ -84,7 +84,7 @@ class MyVideoWidget extends StatefulWidget {
 class _MyVideoWidgetState extends State<MyVideoWidget> {
   late VideoPlayerController controller;
   late ChewieController chewieController;
-  Widget w=Placeholder(child: Image.asset("images/media_sample.jpg"),);
+  Widget w=Placeholder(child: Image.asset("images/video_loading.png"),);
   @override
   void initState() {
     try{
