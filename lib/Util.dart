@@ -87,19 +87,25 @@ class _MyVideoWidgetState extends State<MyVideoWidget> {
   Widget w=Placeholder(child: Image.asset("images/media_sample.jpg"),);
   @override
   void initState() {
-    controller=VideoPlayerController.network(widget.url);
-    controller.initialize().then((value){
-      chewieController=ChewieController(
-          videoPlayerController: controller,
-          aspectRatio: widget.w/widget.h,
-          autoPlay: false,
-          looping: true
-      );
-      setState(() {
-        w=Chewie(controller: chewieController);
+    try{
+      widget.url=widget.url.replaceFirst("http://", "https://");//in case of cleartext HTTP not supported by okhttp
+      controller=VideoPlayerController.network(widget.url);
+      controller.initialize().then((value){
+        chewieController=ChewieController(
+            videoPlayerController: controller,
+            aspectRatio: widget.w/widget.h,
+            autoPlay: false,
+            looping: true
+        );
+        setState(() {
+          w=Chewie(controller: chewieController);
+        });
       });
-    });
-    super.initState();
+      super.initState();
+    }catch(e){
+      print("MyVideoWidget:====================\n");
+      print(e.toString());
+    }
   }
 
   @override
