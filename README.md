@@ -8,7 +8,9 @@
 
 用法：
 ```shell
-git clone [源地址]
+mkdir tb
+cd tb
+git clone [源地址] .
 flutter build apk
 adb install [path to apk]
 ```
