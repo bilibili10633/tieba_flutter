@@ -1,14 +1,21 @@
-# tieba
+# 贴吧Flutter
 
 贴吧Flutter（未完成）
 
-## Getting Started
+## 介绍
 
 用flutter写的第三方贴吧客户端，目前发帖、消息等功能都未实现
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+用法：
+```shell
+git clone [源地址]
+flutter build
+adb install [path to apk]
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```c
+int main(){
+    printf("Hello World!!!\n");
+    return 0;
+}
+```
