@@ -105,11 +105,8 @@ class DrawerContent extends StatelessWidget {
         ),
         ListTile(
           title: const Text("消息测试"),
-          onTap: ()async {
-            DioClient dioClient=DioClient();
-            String res=await dioClient.universalPost(PostBodyType([UrlKeyAndValue(key: "BDUSS", value: await dioClient.cookieManager.getCookie(key: "BDUSS")??"")]), Uri.parse(getTiebaMessagesUri));
-            log(res);
-
+          onTap: (){
+            showDialog(context: context, builder: (context)=>const AlertDialog(title:Text("Nothing To Do"),));
           },
         ),
       ],

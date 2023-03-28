@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
@@ -75,7 +74,9 @@ class PostBodyType {
       * 需要排序后再使用MD5加密
       * */
     requestContent.sort((a, b) {
-      return a.key.codeUnitAt(0) - b.key.codeUnitAt(0);
+      int x=a.key.codeUnitAt(0) - b.key.codeUnitAt(0);
+      if(x!=0)return x;
+      return a.key.codeUnitAt(1) - b.key.codeUnitAt(1);
     });
 
     String waitForSign = "";

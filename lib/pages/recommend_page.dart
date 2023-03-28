@@ -227,7 +227,8 @@ class CardContent extends StatelessWidget {
   late final List imagesData;
   late final List<Widget> threadImgs = [];
   late final bool hasBarName;
-  CardContent({super.key, required ThreadDataType threadDataType}) {
+  final bool hasAgreeBar;
+  CardContent({super.key, required ThreadDataType threadDataType,this.hasAgreeBar = true}) {
     title = threadDataType.title;
     subTitle = threadDataType.subTitle;
     forumName = threadDataType.forumName;
@@ -320,7 +321,7 @@ class CardContent extends StatelessWidget {
           alignment: Alignment.center,
           child: Row(children: threadImgs),
         ),
-        Row(
+        hasAgreeBar?Row(
           children: [
             Expanded(
                 flex: 1,
@@ -383,7 +384,7 @@ class CardContent extends StatelessWidget {
                   ),
                 ))
           ],
-        )
+        ):const SizedBox(height: 0,)
       ],
     );
   }

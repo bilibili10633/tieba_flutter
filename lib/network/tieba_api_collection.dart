@@ -64,5 +64,10 @@ Uri getFloorInFloorUri(String tid,String pid)=>Uri(
 );//楼中楼
 
 
-const String getTiebaMessagesUri="http://c.tieba.baidu.com/c/u/feed/replyme";
 
+//回复我的
+const String getTiebaMessagesUri="http://c.tieba.baidu.com/c/u/feed/replyme";
+//@我的
+const String getTiebaAtMeUri="http://c.tieba.baidu.com/c/u/feed/atme";
+//点赞
+const String getTiebaAgreeMeUri="http://c.tieba.baidu.com/c/u/feed/agreeme";

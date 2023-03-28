@@ -90,17 +90,44 @@ class DetailPageState extends State<StatefulWidget> {
           dioClient.getInfo(uri: getThreadDetailUri(globalTid, "$currentPage"));
       fs.then((value) {
         var postList = jsonDecode(value!);
-        hasMorePage = postList['data']['page']['has_more'];
-        postList = postList['data']['post_list'];
-        if (!firstFloorLoaded) {
-          posts = _parseData(postList);
-        } else {
-          posts.addAll(_parseData(postList));
-          List<Widget> tmp = posts;
-          posts = tmp.toList();
-          tmp.clear();
+        try{
+          hasMorePage = postList['data']['page']['has_more'];
+          postList = postList['data']['post_list'];
+          if (!firstFloorLoaded) {
+            posts = _parseData(postList);
+          } else {
+            posts.addAll(_parseData(postList));
+            List<Widget> tmp = posts;
+            posts = tmp.toList();
+            tmp.clear();
+          }
+          currentPage++;
+        }catch(e){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(postList['errmsg']??"发生了一些错误，请重试..."),duration: const Duration(seconds: 4),)
+          );
+          posts=[
+            SizedBox(
+              height: 500,
+              child: Align(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("images/notfound.png")
+                    ,
+                    Text(postList['errmsg']??"发生了一些错误，请重试...",style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        color: Color(0xffa3a3a3)
+                    ),),
+                  ],
+                )
+              ),
+            )
+          ];
+          log(postList['errmsg']);
         }
-        currentPage++;
         setState(() {});
       });
     } else {

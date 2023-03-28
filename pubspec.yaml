@@ -77,6 +77,7 @@ flutter:
     - images/media_sample.jpg
     - images/application_ic.png
     - images/video_loading.png
+    - images/notfound.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
