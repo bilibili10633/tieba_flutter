@@ -9,7 +9,7 @@
 用法：
 ```shell
 git clone [源地址]
-flutter build
+flutter build apk
 adb install [path to apk]
 ```
 
