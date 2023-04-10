@@ -38,8 +38,8 @@ jobs:
       - name: Create Release and Upload Release Asset
         uses: softprops/action-gh-release@v1
         with:
-          #tag_name: ${{ github.ref }}
-          #name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}
+          name: ${{ github.ref }}
           body: TODO New Release.
           #body_path: CHANGELOG.txt
           draft: false
