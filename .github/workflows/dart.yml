@@ -25,9 +25,10 @@ jobs:
             # The Flutter SDK Version
       - name: clone repo
         run: |
-          git config --global user.email "huang_wen_love@163.com" #邮箱
-          git config --global user.name “bilibili10633” #用户
-          git config --global user.password "Hg364870" #密码
+          git config --global user.email "huang_wen_love@163.com"
+          git config --global user.name "bilibili10633"
+          git config --global user.password "Hg364870"
+          git config --list
           git clone https://github.com/bilibili10633/tieba_flutter.git .
           ls -l
       - name: build
