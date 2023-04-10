@@ -40,5 +40,5 @@ jobs:
         uses: diamondburned/action-upload-release@v0.0.1
         with:
           files: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
-          #release-id: # optional, default is ${{ github.event.release.id }}
+          release-id: ${{ github.event.release.id }}
 
