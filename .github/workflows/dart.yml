@@ -35,24 +35,10 @@ jobs:
         with: 
           name: apk_release
           path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: action-upload-release
+        uses: diamondburned/action-upload-release@v0.0.1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: TODO New Release.
-          draft: false
-          prerelease: false
-        
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/zip
+          files: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
+          #release-id: # optional, default is ${{ github.event.release.id }}
+
