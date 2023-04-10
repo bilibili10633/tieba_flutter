@@ -29,3 +29,9 @@ jobs:
         run: |
           ls -l
           flutter build apk
+
+      - name: upload apk to release
+        uses: actions/upload-artifact@master
+        with: 
+          name: apk_release
+          path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
