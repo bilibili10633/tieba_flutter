@@ -35,14 +35,24 @@ jobs:
         with: 
           name: apk_release
           path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
-      - name: Create Release and Upload Release Asset
-        uses: softprops/action-gh-release@v1
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           body: TODO New Release.
-          #body_path: CHANGELOG.txt
           draft: false
           prerelease: false
-          files: |
-            ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
+        
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/zip
