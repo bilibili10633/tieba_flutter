@@ -71,3 +71,8 @@ const String getTiebaMessagesUri="http://c.tieba.baidu.com/c/u/feed/replyme";
 const String getTiebaAtMeUri="http://c.tieba.baidu.com/c/u/feed/atme";
 //点赞
 const String getTiebaAgreeMeUri="http://c.tieba.baidu.com/c/u/feed/agreeme";
+
+//发帖url.发帖时需要获取tbs
+const String tiebaNewPostUrl="http://tieba.baidu.com/f/commit/post/add";
+//获取tbs，一些操作会用到，具体用途未知
+const String tiebaGetTbs="http://tieba.baidu.com/dc/common/tbs";

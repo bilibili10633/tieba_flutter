@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
@@ -43,21 +44,26 @@ class DioClient {
     return gbk.decode(list[0]);
   }
 
-  Future<String> universalPost(PostBodyType body, Uri uri) async {
+  Future<String> universalPost(PostBodyType body, Uri uri,{Map<String,String> header=const {}}) async {
+    var httpHeader={
+      'cookie': "ka=open",
+      "User-Agent": "bdtb for Android 12.24.1.0",
+      'connection': 'close',
+      "Accept-Encoding": "gzip",
+    };
+    httpHeader.addAll(header);
+
+
     var response = await _dio.postUri(
       uri,
       options: Options(
-        headers: {
-          'cookie': "ka=open",
-          "User-Agent": "bdtb for Android 12.24.1.0",
-          'connection': 'close',
-          "Accept-Encoding": "gzip",
-        },
+        headers: httpHeader,
         contentType: Headers.formUrlEncodedContentType,
       ),
       data: body.toString(),
     );
-    return response.data.toString();
+    //log(response.toString());
+    return response.toString();
   }
 }
 

@@ -4,6 +4,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_browser/photo_browser.dart';
 import 'package:tieba/network/tieba_api_collection.dart';
+import 'package:tieba/widgets/reply_post_bar.dart';
 import 'package:video_player/video_player.dart';
 import '../Util.dart';
 import '../network/dio_client.dart';
@@ -14,9 +15,11 @@ int currentPage = 1, hasMorePage = 1;
 
 class ThreadDetail extends StatelessWidget {
   final String tid, barName;
+  late final ReplyPostBar replyPostBar;
   ThreadDetail({super.key, required this.tid, required this.barName}) {
     globalTid = tid;
     currentPage = hasMorePage = 1;
+    replyPostBar=ReplyPostBar(tid: globalTid,kw: barName);
   }
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,7 @@ class ThreadDetail extends StatelessWidget {
             )
           ],
         ),
-        body: const DetailPage());
+        body: DetailPage(replyPostBar: replyPostBar,));
   }
 
   Widget actionSheetBuilder(BuildContext context) {
@@ -47,13 +50,13 @@ class ThreadDetail extends StatelessWidget {
 }
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+  final ReplyPostBar replyPostBar;
+  const DetailPage({super.key, required this.replyPostBar});
 
   @override
   State<StatefulWidget> createState() {
     return DetailPageState();
   }
-
 }
 
 class DetailPageState extends State<StatefulWidget> {
@@ -90,7 +93,7 @@ class DetailPageState extends State<StatefulWidget> {
           dioClient.getInfo(uri: getThreadDetailUri(globalTid, "$currentPage"));
       fs.then((value) {
         var postList = jsonDecode(value!);
-        try{
+        try {
           hasMorePage = postList['data']['page']['has_more'];
           postList = postList['data']['post_list'];
           if (!firstFloorLoaded) {
@@ -102,28 +105,29 @@ class DetailPageState extends State<StatefulWidget> {
             tmp.clear();
           }
           currentPage++;
-        }catch(e){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(postList['errmsg']??"发生了一些错误，请重试..."),duration: const Duration(seconds: 4),)
-          );
-          posts=[
+        } catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(postList['errmsg'] ?? "发生了一些错误，请重试..."),
+            duration: const Duration(seconds: 4),
+          ));
+          posts = [
             SizedBox(
               height: 500,
               child: Align(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("images/notfound.png")
-                    ,
-                    Text(postList['errmsg']??"发生了一些错误，请重试...",style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: Color(0xffa3a3a3)
-                    ),),
-                  ],
-                )
-              ),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset("images/notfound.png"),
+                      Text(
+                        postList['errmsg'] ?? "发生了一些错误，请重试...",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                            color: Color(0xffa3a3a3)),
+                      ),
+                    ],
+                  )),
             )
           ];
           log(postList['errmsg']);
@@ -134,6 +138,7 @@ class DetailPageState extends State<StatefulWidget> {
       log("没有更多页面了");
     }
   }
+
   VideoPlayerController? controller;
   ChewieController? chewieController;
   List<Widget> _parseData(dynamic postListInList) {
@@ -168,7 +173,9 @@ class DetailPageState extends State<StatefulWidget> {
                     fontWeight: FontWeight.w600)));
             break;
           case 1:
-            postContent.add(TextSpan(text: content[j]['text'],style: const TextStyle(color: tiebaMainThemeColor)));
+            postContent.add(TextSpan(
+                text: content[j]['text'],
+                style: const TextStyle(color: tiebaMainThemeColor)));
             break;
           case 2: //表情
             postContent.add(WidgetSpan(
@@ -184,16 +191,15 @@ class DetailPageState extends State<StatefulWidget> {
             images.add(content[j]['src']);
             break;
           case 5:
-            postContent.add(
-              WidgetSpan(child: SizedBox(
-                height: 280,
-                child: MyVideoWidget(
-                  url: postListInList[i]['video_info']['video_url'],
-                  w: postListInList[i]['video_info']['video_width'],
-                  h: postListInList[i]['video_info']['video_height'],
-                ),
-              ))
-            );
+            postContent.add(WidgetSpan(
+                child: SizedBox(
+              height: 280,
+              child: MyVideoWidget(
+                url: postListInList[i]['video_info']['video_url'],
+                w: postListInList[i]['video_info']['video_width'],
+                h: postListInList[i]['video_info']['video_height'],
+              ),
+            )));
             break;
           default:
             postContent.add(const TextSpan(
@@ -261,23 +267,47 @@ class DetailPageState extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        //color: bg,
-        width: Util().devWidth,
-        height: Util().devHeight - 80,
-        child: Material(
-          color: bg,
-          child: ListView(
-            controller: _scrollController,
-            children: posts,
+    DetailPage detailPage=widget as DetailPage;
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          width: Util().devWidth,
+          height: Util().devHeight - 125,
+          child: Material(
+            color: bg,
+            child: ListView(
+              controller: _scrollController,
+              children: posts,
+            ),
           ),
-        ));
+        ),
+        Positioned(
+            bottom: 0,
+            child: Container(
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color: Color(0x3f000000),
+                      offset: Offset(0, -1),
+                      spreadRadius: 2,
+                      blurRadius: 5)
+                ],
+                color:Color(0xffffffff),
+              ),
+              width: Util().devWidth,
+              height: 45,
+              child: detailPage.replyPostBar
+            ))
+      ],
+    );
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
-    if(controller!=null)controller!.dispose();
-    if(chewieController!=null)chewieController!.dispose();
+    if (controller != null) controller!.dispose();
+    if (chewieController != null) chewieController!.dispose();
     super.dispose();
   }
 }
@@ -354,8 +384,6 @@ class SubPostState extends State<StatefulWidget> {
   }
 }
 
-
-
 class _PostItem extends StatefulWidget {
   final Map singlePostData;
   final List<InlineSpan>? postContent;
@@ -365,36 +393,29 @@ class _PostItem extends StatefulWidget {
       {required this.singlePostData, this.postContent, required this.hasTitle});
   @override
   State<StatefulWidget> createState() => _PostItemState();
-
 }
 
-
-
 class _PostItemState extends State<StatefulWidget> {
-
   late List subPosts;
 
   @override
   Widget build(BuildContext context) {
     _PostItem w = widget as _PostItem;
-    subPosts= w.singlePostData['sub_post_list']??[];
+    subPosts = w.singlePostData['sub_post_list'] ?? [];
     //log("楼中楼:$subPosts");
     //parsedSubPosts.isEmpty 防止重复加载触发百度CAPTCHA
-    if (subPosts.isNotEmpty&&w.parsedSubPosts.isEmpty) {
-      log("in parsing",name: "build");
+    if (subPosts.isNotEmpty && w.parsedSubPosts.isEmpty) {
+      log("in parsing", name: "build");
       _parseSubPosts(globalTid, w.singlePostData['id'].toString())
           .then((value) {
         try {
           w.parsedSubPosts.addAll(List.from(value));
-          setState(() {
-
-          });
+          setState(() {});
         } catch (E) {
           log("non fatal exception", name: "trying parse");
         }
       });
     }
-
 
     var authorInfo = w.singlePostData['author'];
     return InkWell(
@@ -451,13 +472,14 @@ class _PostItemState extends State<StatefulWidget> {
       ),
     );
   }
+
   @override
   void dispose() {
     //w.parsedSubPosts.clear();
     super.dispose();
     // TODO: implement dispose
-
   }
+
   Future<List<Widget>> _parseSubPosts(String tid, String pid) async {
     List<Widget> pSubPosts = [];
     DioClient dioClient = DioClient();

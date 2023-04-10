@@ -105,7 +105,8 @@ class DrawerContent extends StatelessWidget {
         ),
         ListTile(
           title: const Text("消息测试"),
-          onTap: (){
+          onTap: ()async{
+            DioClient dioclient=DioClient();
             showDialog(context: context, builder: (context)=>const AlertDialog(title:Text("Nothing To Do"),));
           },
         ),
