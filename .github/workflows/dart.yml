@@ -23,6 +23,10 @@ jobs:
         with:
           flutter-sdk-version: 3.3.10
             # The Flutter SDK Version
+      - name: clone repo
+        run: |
+          git clone https://github.com/bilibili10633/tieba_flutter.git .
+          ls -l
       - name: build
         run: |
           ls -l
