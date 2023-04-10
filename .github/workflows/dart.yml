@@ -28,6 +28,7 @@ jobs:
       - name: build
         run: |
           ls -l
+          export RELEASE_ID=121
           flutter build apk
 
       - name: upload apk to release
