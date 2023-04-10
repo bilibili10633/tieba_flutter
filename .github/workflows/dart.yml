@@ -16,13 +16,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: clone repo
-        run: |
-          git config --global user.email "huang_wen_love@163.com"
-          git config --global user.name "bilibili10633"
-          git config --list
-          git clone tieba_flutter.git .
-          ls -l
+      - name: Checkout
+        uses: actions/checkout@master
       - name: Flutter SDK
         # You may pin to the exact commit or the version.
         # uses: MobileDevOps/flutter-sdk-action@a93694305106b954a8b85195ab7cd4bfec0401bf
