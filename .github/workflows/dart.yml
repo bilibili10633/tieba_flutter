@@ -37,8 +37,9 @@ jobs:
           path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
       
       - name: action-upload-release
+        #run: export RELEASE_ID=1
         uses: diamondburned/action-upload-release@v0.0.1
         with:
           files: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
-          release-id: ${{ github.event.release.id }}
+          release_id: ${{ github.event.release.id }}
 
