@@ -15,9 +15,4 @@ flutter build apk
 adb install [path to apk]
 ```
 
-```c
-int main(){
-    printf("Hello World!!!\n");
-    return 0;
-}
-```
+- 需要下载预构建版本可以移步 Action -> Artifact 下载

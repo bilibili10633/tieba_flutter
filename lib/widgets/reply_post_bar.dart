@@ -52,7 +52,7 @@ class _ReplyPostBarState extends State<ReplyPostBar> {
               )),
               Expanded(
                   child: MaterialButton(
-                    child: const Icon(Icons.thumb_up_alt,size: 20),
+                    child: const Icon(Icons.thumb_up_alt_outlined,size: 20),
                   onPressed: () {},
               )),
               Expanded(

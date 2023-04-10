@@ -74,8 +74,34 @@ class _ReplyFormState extends State<ReplyForm> {
               width: Util().devWidth,
                 height: 45,
                 bottom: 0,
-                child:Container(
-                  color: const Color(0xff66ccff),
+                child:Row(
+                  children: [
+                    Expanded(
+                        child: MaterialButton(
+                            onPressed: (){},
+                            child: const Icon(Icons.emoji_emotions_outlined))
+                    ),
+                    Expanded(
+                        child: MaterialButton(
+                            onPressed: (){},
+                            child: const Icon(Icons.emoji_emotions_outlined))
+                    ),
+                    Expanded(
+                        child: MaterialButton(
+                            onPressed: (){},
+                            child: const Icon(Icons.emoji_emotions_outlined))
+                    ),
+                    Expanded(
+                        child: MaterialButton(
+                            onPressed: (){},
+                            child: const Icon(Icons.emoji_emotions_outlined))
+                    ),
+                    Expanded(
+                        child: MaterialButton(
+                            onPressed: (){},
+                            child: const Icon(Icons.emoji_emotions_outlined))
+                    )
+                  ],
                 )
             )
           ],
