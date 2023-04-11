@@ -4,6 +4,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_browser/photo_browser.dart';
 import 'package:tieba/network/tieba_api_collection.dart';
+import 'package:tieba/widgets/forum_level.dart';
 import 'package:tieba/widgets/reply_post_bar.dart';
 import 'package:video_player/video_player.dart';
 import '../Util.dart';
@@ -86,16 +87,26 @@ class DetailPageState extends State<StatefulWidget> {
     loadRes();
   }
 
-  void loadRes() {
+  void loadRes() async{
     DioClient dioClient = DioClient();
     if (hasMorePage == 1) {
-      Future<String?> fs =
-          dioClient.getInfo(uri: getThreadDetailUri(globalTid, "$currentPage"));
+      //Future<String?> fs =
+      //   dioClient.getInfo(uri: getThreadDetailUri(globalTid, "$currentPage"));
+      Future<String?> fs=
+        dioClient.universalPost(PostBodyType([
+          UrlKeyAndValue(key: "BDUSS", value: await dioClient.cookieManager.getCookie(key: "BDUSS")??""),
+          UrlKeyAndValue(key: "kz", value: globalTid),
+          UrlKeyAndValue(key: "pn", value: currentPage.toString()),
+          UrlKeyAndValue(key: "rn", value: '30'),
+          UrlKeyAndValue(key: "floor_rn", value: '50'),
+          UrlKeyAndValue(key: "with_floor", value: '1')
+        ]), Uri.parse(postThreadDetail));
+      
       fs.then((value) {
         var postList = jsonDecode(value!);
         try {
-          hasMorePage = postList['data']['page']['has_more'];
-          postList = postList['data']['post_list'];
+          hasMorePage = postList['page']['has_more'];
+          postList = postList['post_list'];
           if (!firstFloorLoaded) {
             posts = _parseData(postList);
           } else {
@@ -105,7 +116,7 @@ class DetailPageState extends State<StatefulWidget> {
             tmp.clear();
           }
           currentPage++;
-        } catch (e) {
+          } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(postList['errmsg'] ?? "发生了一些错误，请重试..."),
             duration: const Duration(seconds: 4),
@@ -162,7 +173,7 @@ class DetailPageState extends State<StatefulWidget> {
         switch (content[j]['type']) {
           case 0:
             String tmp = content[j]['text'];
-            tmp = tmp.replaceAll("<br/>", " ");
+            tmp = tmp.replaceAll("<br/>", "\n");
             postContent.add(WidgetSpan(
                 child: SelectableText(
                   tmp,
@@ -183,21 +194,21 @@ class DetailPageState extends State<StatefulWidget> {
               width: 16,
               height: 16,
               child: Image.network(
-                content[j]['src'],
+                "$tiebaEmojiPrefix${content[j]['text']}.png",
               ),
             )));
             break;
           case 3:
-            images.add(content[j]['src']);
+            images.add(content[j]['origin_src']);
             break;
           case 5:
             postContent.add(WidgetSpan(
                 child: SizedBox(
               height: 280,
               child: MyVideoWidget(
-                url: postListInList[i]['video_info']['video_url'],
-                w: postListInList[i]['video_info']['video_width'],
-                h: postListInList[i]['video_info']['video_height'],
+                url: content[j]['link'],
+                w: content[j]['width'],
+                h: content[j]['height'],
               ),
             )));
             break;
@@ -288,7 +299,7 @@ class DetailPageState extends State<StatefulWidget> {
               decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                      color: Color(0x3f000000),
+                      color: Color(0x5e666666),
                       offset: Offset(0, -1),
                       spreadRadius: 2,
                       blurRadius: 5)
@@ -314,12 +325,12 @@ class DetailPageState extends State<StatefulWidget> {
 
 class _UserInfoModule extends StatelessWidget {
   final String userName, userAvatarSrc;
-  final int time, floorNum;
+  final int time, floorNum,level;
   const _UserInfoModule(
       {required this.userName,
       required this.userAvatarSrc,
       required this.time,
-      required this.floorNum});
+      required this.floorNum, required this.level});
   @override
   Widget build(BuildContext context) {
     DateTime convertedTime = DateTime.fromMillisecondsSinceEpoch(time * 1000);
@@ -360,7 +371,12 @@ class _UserInfoModule extends StatelessWidget {
               child: Text(
                 "#$floorNum楼",
                 style: TextStyle(color: Colors.grey.shade800),
-              ))
+              )),
+          Positioned(
+            top: 35,
+            left: 24,
+            child: ForumLevelWidget(level: level),
+          )
         ],
       ),
     );
@@ -401,7 +417,8 @@ class _PostItemState extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     _PostItem w = widget as _PostItem;
-    subPosts = w.singlePostData['sub_post_list'] ?? [];
+    var obj=w.singlePostData['sub_post_list']??{'sub_post_list':[]};
+    subPosts = obj['sub_post_list'];
     //log("楼中楼:$subPosts");
     //parsedSubPosts.isEmpty 防止重复加载触发百度CAPTCHA
     if (subPosts.isNotEmpty && w.parsedSubPosts.isEmpty) {
@@ -433,7 +450,9 @@ class _PostItemState extends State<StatefulWidget> {
                 userName: authorInfo['name_show'],
                 userAvatarSrc: "$userAvatarPrefix${authorInfo['portrait']}",
                 time: w.singlePostData['time'],
-                floorNum: w.singlePostData['floor']),
+                floorNum: w.singlePostData['floor'],
+                level:authorInfo['level_id']
+            ),
             w.hasTitle
                 ? SizedBox(
                     width: Util().devWidth,

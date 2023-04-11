@@ -24,12 +24,12 @@ class DrawerContent extends StatelessWidget {
                 builder: (context) {
                   return AlertDialog(
                     title: const Text("输入kz："),
-                    content: EditableText(
+                    content: TextField(
                       controller: textEditingController,
-                      focusNode: FocusNode(),
-                      style: const TextStyle(color: Colors.black),
-                      cursorColor: Colors.black,
-                      backgroundCursorColor: Colors.black,
+                      //focusNode: FocusNode(),
+                      //style: const TextStyle(color: Colors.black),
+                      //cursorColor: Colors.black,
+                      //backgroundCursorColor: Colors.black,
                     ),
                     actions: [
                       TextButton(

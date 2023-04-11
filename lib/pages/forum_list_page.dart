@@ -8,6 +8,8 @@ import 'package:tieba/network/tieba_api_collection.dart';
 import 'package:tieba/Util.dart';
 import 'package:tieba/pages/forum_pages/enter_forum.dart';
 
+import '../widgets/forum_level.dart';
+
 class ForumListPage extends StatefulWidget {
   const ForumListPage({super.key});
 
@@ -90,27 +92,7 @@ class ForumListPageState extends State<StatefulWidget>{
                             2 *
                             (0.2 / 1) +
                             20,
-                        child: Container(
-                          width: 20,
-                          height: 10,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(10),
-                              color: int.parse(forumInfo['level']!) > 10
-                                  ? const Color(0xfff5b546)
-                                  : const Color(0xff6aa4f3)),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              forumInfo['level']!,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.26),
-                            ),
-                          ),
-                        ))
+                        child: ForumLevelWidget(level: int.parse(forumInfo['level']!),))
                   ],
                 ),
               ),

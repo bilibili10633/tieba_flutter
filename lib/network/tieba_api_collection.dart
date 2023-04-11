@@ -65,6 +65,8 @@ Uri getFloorInFloorUri(String tid,String pid)=>Uri(
 
 
 
+//帖子信息
+const String postThreadDetail="http://c.tieba.baidu.com/c/f/pb/page";
 //回复我的
 const String getTiebaMessagesUri="http://c.tieba.baidu.com/c/u/feed/replyme";
 //@我的
@@ -76,3 +78,9 @@ const String getTiebaAgreeMeUri="http://c.tieba.baidu.com/c/u/feed/agreeme";
 const String tiebaNewPostUrl="http://tieba.baidu.com/f/commit/post/add";
 //获取tbs，一些操作会用到，具体用途未知
 const String tiebaGetTbs="http://tieba.baidu.com/dc/common/tbs";
+//上传图片url，返回的地址在发帖时用
+const String tiebaUploadUrl="https://uploadphotos.baidu.com/upload/pic?tbs=77d596470c5f2e2a016811285040125500_1&save_yun_album=1&picWaterType=1039999";
+//图片tag，帖子附带的图片
+const String tiebaPostImageTag="[img pic_type=0 width=*width* height=*height*]*url*[/img]";
+//贴吧表情前缀
+const String tiebaEmojiPrefix="http://static.tieba.baidu.com/tb/editor/images/client/";

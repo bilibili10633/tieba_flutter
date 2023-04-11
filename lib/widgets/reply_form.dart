@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tieba/Util.dart';
 import 'package:tieba/network/dio_client.dart';
 import 'package:tieba/network/tieba_api_collection.dart';
@@ -23,7 +24,7 @@ class _ReplyFormState extends State<ReplyForm> {
     return Container(
         decoration: const BoxDecoration(color: Color(0xffffffff), boxShadow: [
           BoxShadow(
-              color: Color(0x7e333333),
+              color: Color(0x5e666666),
               offset: Offset(0, -1),
               spreadRadius: 5,
               blurRadius: 5)
@@ -84,12 +85,12 @@ class _ReplyFormState extends State<ReplyForm> {
                     Expanded(
                         child: MaterialButton(
                             onPressed: (){},
-                            child: const Icon(Icons.emoji_emotions_outlined))
+                            child: const Icon(Icons.image_outlined))
                     ),
                     Expanded(
                         child: MaterialButton(
                             onPressed: (){},
-                            child: const Icon(Icons.emoji_emotions_outlined))
+                            child: const Icon(CupertinoIcons.at))
                     ),
                     Expanded(
                         child: MaterialButton(
