@@ -64,6 +64,6 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: ipa_release
-          path: ~/work/tieba_flutter/tieba/build/ios/iphoneos/build.ipa
+          path: ~/work/tieba_flutter/tieba_flutter/build/ios/iphoneos/build.ipa
 
 
