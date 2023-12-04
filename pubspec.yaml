@@ -35,7 +35,7 @@ dependencies:
   shared_preferences: 2.0.0
   html:
   crypto:
-  flutter_inappwebview: 5.4.3
+  flutter_inappwebview: ^5.4.3
   flutter_gbk2utf8:
   photo_browser: 3.0.2
   flutter_native_splash:
