@@ -9,6 +9,7 @@ import 'package:video_player/video_player.dart';
 const SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
   statusBarBrightness: Brightness.dark,
+  systemNavigationBarColor: Colors.transparent
 );
 /*
 使用前请在style.xml内加入：
@@ -29,8 +30,14 @@ class Util{
 
   };
   static Util? _util;
+  static final defaultLightColorScheme =
+  ColorScheme.fromSwatch(primarySwatch: Colors.blue);
+
+  static final defaultDarkColorScheme = ColorScheme.fromSwatch(
+      primarySwatch: Colors.blue, brightness: Brightness.dark);
   static void transparentSystemUI(){
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
   Util._privateConstructor(){
     geT++;

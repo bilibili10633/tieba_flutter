@@ -11,7 +11,7 @@ on:
 
 
 jobs:
-  build:
+  build_android_apk:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,5 +35,35 @@ jobs:
         with: 
           name: apk_release
           path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
+
+  build_ios_ipa:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@master
+
+      - name: get Flutter SDK
+        uses: MobileDevOps/flutter-sdk-action@v1.0.0
+        with:
+          flutter-sdk-version: 3.8.0-10.1
+
+      - name: get dependencies
+        run: flutter pub get
+
+      - name: build
+        run: flutter build ios --release --no-codesign
+
+      - name: package ipa
+        run: |
+          mkdir ~/work/tieba_flutter/tieba/build/ios/iphoneos/Payload
+          mv ~/work//tieba_flutter/tieba/build/ios/iphoneos/Runner.app  ~/work/tieba_flutter/tieba/build/ios/iphoneos/Payload/
+          cd ~/work/tieba_flutter/tieba/build/ios/iphoneos/
+          zip -r ./build.ipa ./Payload
+
+      - name: upload ipa
+        uses: actions/upload-artifact@master
+        with:
+          name: ipa_release
+          path: ~/work/tieba_flutter/tieba/build/ios/iphoneos/build.ipa
 
 

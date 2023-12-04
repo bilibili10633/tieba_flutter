@@ -24,7 +24,7 @@ class _ReplyFormState extends State<ReplyForm> {
     return Container(
         decoration: const BoxDecoration(color: Color(0xffffffff), boxShadow: [
           BoxShadow(
-              color: Color(0x5e666666),
+              color: Color(0x28CBCBCB),
               offset: Offset(0, -1),
               spreadRadius: 5,
               blurRadius: 5)

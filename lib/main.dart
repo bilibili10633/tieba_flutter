@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,7 +21,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: TiebaHome(),);
+    return DynamicColorBuilder(builder: (lightColorScheme,darkColorScheme){
+      return MaterialApp(
+        theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: lightColorScheme??Util.defaultLightColorScheme
+        ),
+        darkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: darkColorScheme??Util.defaultDarkColorScheme
+        ),
+        home: const TiebaHome(),
+      );
+    });
   }
 }
 

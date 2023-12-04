@@ -13,7 +13,9 @@ class ForumLevelWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           color: level > 10
               ? const Color(0xfff5b546)
-              : const Color(0xff6aa4f3)),
+              : level>4?const Color(0xff6aa4f3)
+              :const Color(0xff72e051)
+      ),
       child: Align(
         alignment: Alignment.center,
         child: Text(

@@ -192,7 +192,7 @@ class NotificationsState extends State<StatefulWidget>
           controller: _tabController,
         ),
         SizedBox(
-            height: Util().devHeight - 185,
+            height: Util().devHeight - 188,
             child: TabBarView(
               controller: _tabController,
               children: [message, atme,agreeMe],

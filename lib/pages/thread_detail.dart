@@ -305,7 +305,7 @@ class DetailPageState extends State<StatefulWidget> {
                 decoration: const BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                        color: Color(0x5e666666),
+                        color: Color(0x3fc7c7c7),
                         offset: Offset(0, -1),
                         spreadRadius: 2,
                         blurRadius: 5)
