@@ -22,7 +22,7 @@ jobs:
         # uses: MobileDevOps/flutter-sdk-action@a93694305106b954a8b85195ab7cd4bfec0401bf
         uses: MobileDevOps/flutter-sdk-action@v1.0.0
         with:
-          flutter-sdk-version: 3.8.0-10.1
+          flutter-sdk-version: 3.22.3
             # The Flutter SDK Version
       - name: build
         run: |
@@ -55,15 +55,15 @@ jobs:
 
       - name: package ipa
         run: |
-          mkdir ~/work/tieba_flutter/tieba/build/ios/iphoneos/Payload
-          mv ~/work//tieba_flutter/tieba/build/ios/iphoneos/Runner.app  ~/work/tieba_flutter/tieba/build/ios/iphoneos/Payload/
-          cd ~/work/tieba_flutter/tieba/build/ios/iphoneos/
+          mkdir ~/work/tieba_flutter/tieba_flutter/build/ios/iphoneos/Payload
+          mv ~/work/tieba_flutter/tieba_flutter/build/ios/iphoneos/Runner.app  ~/work/tieba_flutter/tieba_flutter/build/ios/iphoneos/Payload/
+          cd ~/work/tieba_flutter/tieba_flutter/build/ios/iphoneos/
           zip -r ./build.ipa ./Payload
 
       - name: upload ipa
         uses: actions/upload-artifact@master
         with:
           name: ipa_release
-          path: ~/work/tieba_flutter/tieba/build/ios/iphoneos/build.ipa
+          path: ~/work/tieba_flutter/tieba_flutter/build/ios/iphoneos/build.ipa
 
 
