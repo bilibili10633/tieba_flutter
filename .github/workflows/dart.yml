@@ -27,8 +27,9 @@ jobs:
       - name: build
         run: |
           ls -l
+          java --version
           export RELEASE_ID=121
-          flutter build apk
+          
 
       - name: upload apk to artifact
         uses: actions/upload-artifact@master
