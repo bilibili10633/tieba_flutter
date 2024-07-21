@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tieba/Util.dart';
 import 'package:tieba/network/dio_client.dart';
@@ -49,7 +50,7 @@ class NotificationsState extends State<StatefulWidget>
               content.add(
                   InkWell(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                      Navigator.push(context, CupertinoPageRoute(builder: (context){
                         return ThreadDetail(tid: replyList[i]['thread_id'], barName: replyList[i]['fname']);
                       }));
                     },
@@ -94,7 +95,7 @@ class NotificationsState extends State<StatefulWidget>
           contents.add(
             InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+                Navigator.push(context, CupertinoPageRoute(builder: (context){
                   return ThreadDetail(tid: atList[i]['thread_id'], barName: atList[i]['fname']);
                 }));
               },
@@ -139,7 +140,7 @@ class NotificationsState extends State<StatefulWidget>
           contents.add(
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                  Navigator.push(context, CupertinoPageRoute(builder: (context){
                     return ThreadDetail(tid: atList[i]['thread_info']['id'], barName: atList[i]['thread_info']['fname']);
                   }));
                 },

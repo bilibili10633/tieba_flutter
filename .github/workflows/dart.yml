@@ -22,7 +22,7 @@ jobs:
         # uses: MobileDevOps/flutter-sdk-action@a93694305106b954a8b85195ab7cd4bfec0401bf
         uses: MobileDevOps/flutter-sdk-action@v1.0.0
         with:
-          flutter-sdk-version: 3.3.10
+          flutter-sdk-version: 3.8.0-10.1
             # The Flutter SDK Version
       - name: build
         run: |
@@ -45,7 +45,7 @@ jobs:
       - name: get Flutter SDK
         uses: MobileDevOps/flutter-sdk-action@v1.0.0
         with:
-          flutter-sdk-version: 3.8.0-10.1
+          flutter-sdk-version: 3.22.3
 
       - name: get dependencies
         run: flutter pub get

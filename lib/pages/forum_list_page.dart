@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tieba/main.dart';
 
 import 'package:tieba/network/dio_client.dart';
 import 'package:tieba/network/tieba_api_collection.dart';
@@ -33,18 +35,19 @@ class ForumListPageState extends State<StatefulWidget>{
       for (Map<String, String> forumInfo in all) {
         allWidget.add(GridTile(
             child: Ink(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color(0xffffffff)
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(width:useMd3.flag?1:0,color: Util.isDarkMode(context)?const Color(0xff666666):const Color(0xff222222)),
+                  color: Util.isDarkMode(context)?const Color(0xff1E1F22):const Color(0xffffffff)
               ),
               child: InkWell(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (context){
                     return Scaffold(
                       appBar: AppBar(
                         foregroundColor: tiebaMainThemeColor,
-                        backgroundColor: const Color(0xffffffff),
+                        // backgroundColor: const Color(0xffffffff),
                         shadowColor: const Color(0x00000000),
                         title: Text("${forumInfo["forumName"]}吧",style: const TextStyle(color: tiebaMainThemeColor),),
                       ),

@@ -5,8 +5,10 @@ import 'package:tieba/Util.dart';
 import 'package:tieba/network/dio_client.dart';
 import 'package:tieba/network/dio_cookie_manager.dart';
 import 'package:tieba/network/tieba_api_collection.dart';
+import 'package:tieba/pages/settings.dart';
 import 'package:tieba/pages/thread_detail.dart';
 import 'package:tieba/pages/tieba_login_page.dart';
+import 'package:tieba/pages/user_info.dart';
 
 class DrawerContent extends StatelessWidget {
   const DrawerContent({super.key});
@@ -75,41 +77,20 @@ class DrawerContent extends StatelessWidget {
           },
         ),
         ListTile(
-          title: const Text("关于"),
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AboutDialog(
-                    applicationName: "贴吧Flutter",
-                    applicationVersion: "1.0",
-                    applicationIcon: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Image.asset("images/application_ic.png"),
-                    ),
-                    children: const [
-                      Text("此应用使用Flutter构建"),
-                      Text(
-                        "开发者：不动の大音乐厅",
-                        textDirection: TextDirection.rtl,
-                        style: TextStyle(fontSize: 14,fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  );
-                });
-          },
-        ),
-        ListTile(
           title: const Text("消息测试"),
           onTap: ()async{
             DioClient dioclient=DioClient();
             showDialog(context: context, builder: (context)=>const AlertDialog(title:Text("Nothing To Do"),));
           },
         ),
+        ListTile(
+          title: const Text("设置"),
+          onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (ctx){
+                return const SettingsPage();
+              }));
+          },
+        )
       ],
     );
   }
@@ -145,6 +126,10 @@ class MyDrawerHeaderState extends State<StatefulWidget> {
           "userSig": util.sessionMap["userData"]["data"]["mobilephone"]
         };
         onTapFunc = (BuildContext context) {
+          Navigator.push(context, MaterialPageRoute(builder: (ctx){
+            return Profile(
+                username:util.sessionMap["userData"]["data"]["user_name_weak"]??""
+            );}));
           log("什么都不做");
         };
         setState(() {});

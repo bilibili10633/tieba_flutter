@@ -40,7 +40,7 @@ class MyCookieManager extends Interceptor{
     options.headers.addAll({
       "host":"  ",
       'access':"no",
-      "user-agent":"bdtb for Android 12.24.1.0",
+      "user-agent":options.headers['user-agent']??"bdtb for Android 12.24.1.0",
       'cookie':cookieStr
     });
     super.onRequest(options, handler);

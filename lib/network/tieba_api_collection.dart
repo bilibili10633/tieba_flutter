@@ -83,4 +83,6 @@ const String tiebaUploadUrl="https://uploadphotos.baidu.com/upload/pic?tbs=77d59
 //图片tag，帖子附带的图片
 const String tiebaPostImageTag="[img pic_type=0 width=*width* height=*height*]*url*[/img]";
 //贴吧表情前缀
-const String tiebaEmojiPrefix="http://static.tieba.baidu.com/tb/editor/images/client/";
+const String tiebaEmojiPrefix="http://tieba.baidu.com/tb/editor/images/client/";
+//个人信息
+const String profile="http://tieba.baidu.com/home/get/getthread";

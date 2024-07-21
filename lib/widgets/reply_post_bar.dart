@@ -33,8 +33,8 @@ class _ReplyPostBarState extends State<ReplyPostBar> {
               },
               height: 45,
               child: RichText(
-                text: const TextSpan(
-                    style: TextStyle(fontSize: 15, color: Color(0xae222222)),
+                text: TextSpan(
+                    style: TextStyle(fontSize: 15,color: !Util.isDarkMode(context)?const Color(0xff000000):const Color(0xffffffff)),
                     children: [
                       WidgetSpan(child: Icon(Icons.edit,size: 20,),),
                       TextSpan(text: "编辑回复")

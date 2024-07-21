@@ -26,7 +26,7 @@ class ThreadDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xffffffff),
+          // backgroundColor: const Color(0xffffffff),
           foregroundColor: tiebaMainThemeColor,
           shadowColor: Colors.transparent,
           title: Text("帖子详细  -  $barName吧"),
@@ -252,7 +252,18 @@ class DetailPageState extends State<StatefulWidget> {
                     },
                     child: Hero(
                       tag: images[k],
-                      child: Image.network(images[k]),
+                      child: Image.network(images[k], loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress){
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? (loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes??1))
+                                : null,
+                          ),
+                        );
+                      },),
                     ),
                   ))));
         }
@@ -292,7 +303,7 @@ class DetailPageState extends State<StatefulWidget> {
           width: Util().devWidth,
           height: Util().devHeight - 125,
           child: Material(
-            color: bg,
+            // color: bg,
             child: ListView(
               controller: _scrollController,
               children: posts,
@@ -302,15 +313,15 @@ class DetailPageState extends State<StatefulWidget> {
         Positioned(
             bottom: 0,
             child: Container(
-                decoration: const BoxDecoration(
-                  boxShadow: [
+                decoration:  BoxDecoration(
+                  boxShadow:  [
                     BoxShadow(
-                        color: Color(0x3fc7c7c7),
-                        offset: Offset(0, -1),
+                        color: !Util.isDarkMode(context)?const Color(0x28CBCBCB):const Color(0x28000000),
+                        offset: const Offset(0, -1),
                         spreadRadius: 2,
                         blurRadius: 5)
                   ],
-                  color: Color(0xffffffff),
+                  color: !Util.isDarkMode(context)?const Color(0xffffffff):Util.defaultDarkColorScheme.surface,
                 ),
                 width: Util().devWidth,
                 height: 45,
@@ -361,7 +372,8 @@ class _UserInfoModule extends StatelessWidget {
               child: Text(
                 userName,
                 style: const TextStyle(
-                    color: mainTextColor, fontWeight: FontWeight.w600),
+                    // color: mainTextColor,
+                    fontWeight: FontWeight.w600),
               )),
           Positioned(
               top: 30,
@@ -464,7 +476,7 @@ class _PostItemState extends State<StatefulWidget> {
                     child: Text(
                       w.singlePostData['title'],
                       style: const TextStyle(
-                          color: mainTextColor,
+                          //color: Util.mainTextColor,
                           fontWeight: FontWeight.w600,
                           fontSize: 17),
                     ),
@@ -486,7 +498,7 @@ class _PostItemState extends State<StatefulWidget> {
                 alignment: Alignment.centerLeft,
                 width: Util().devWidth,
                 child: Ink(
-                  color: const Color(0xffededed),
+                  color: Util.isDarkMode(context)?const Color(0xff1E1F22):const Color(0xffededed),
                   child: Column(
                     children: w.parsedSubPosts,
                   ),
@@ -532,7 +544,7 @@ class _PostItemState extends State<StatefulWidget> {
           case 0:
             inlineSpan.add(WidgetSpan(
                 child: SelectableText(content[k]['text'],
-                    style: const TextStyle(color: mainTextColor))));
+                )));
             break;
           case 2:
             inlineSpan.add(
@@ -558,13 +570,13 @@ class _PostItemState extends State<StatefulWidget> {
       pSubPosts.add(Align(
         alignment: Alignment.centerLeft,
         child: Ink(
-          color: const Color(0xffededed),
+          // color: const Color(0xffff0000),
           child: InkWell(
               onTap: () {
                 log("subpost tap");
               },
               child: RichText(
-                text: TextSpan(children: inlineSpan),
+                text: TextSpan(children: inlineSpan,),
                 textAlign: TextAlign.left,
               )),
         ),

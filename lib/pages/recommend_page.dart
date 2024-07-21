@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_browser/photo_browser.dart';
 
 import 'package:tieba/Util.dart';
+import 'package:tieba/main.dart';
 import 'package:tieba/network/dio_client.dart';
 import 'package:tieba/network/tieba_api_collection.dart';
 import 'package:tieba/pages/thread_detail.dart';
@@ -20,7 +22,7 @@ class RecommendPageState extends State<StatefulWidget> {
   List<ThreadDataType> threads = [];
   ScrollController threadListController = ScrollController();
   List<Widget> items = [
-    Align(
+    const Align(
         alignment: Alignment.center,
         child: SizedBox(
             height: 200,
@@ -28,7 +30,7 @@ class RecommendPageState extends State<StatefulWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(tiebaMainThemeColor),
                   backgroundColor: Colors.transparent,
@@ -119,7 +121,10 @@ class RecommendPageState extends State<StatefulWidget> {
           bottom: 10,
           child: FloatingActionButton(
             onPressed: () {
-              buildItem();
+              items=[];
+              setState(() {
+                buildItem();
+              });
             },
             child: const Icon(Icons.refresh),
           ),
@@ -139,7 +144,12 @@ class RecommendThreadItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return getWidget(Util.isDarkMode(context), context);
+  }
+
+  getWidget(bool darkMode,BuildContext context){
+    if(!darkMode) {
+      return Container(
         alignment: Alignment.center,
         color: const Color.fromARGB(255, 0xf3, 0xf3, 0xf7),
         //width: Util.devWidth-20,
@@ -155,7 +165,35 @@ class RecommendThreadItem extends StatelessWidget {
                   focusColor: const Color.fromARGB(255, 0xf3, 0xf3, 0xf7),
                   onTap: () {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) {
+                        .push(CupertinoPageRoute(builder: (context) {
+                      return ThreadDetail(
+                        tid: tid,
+                        barName: thread.forumName,
+                      );
+                    }));
+                  },
+                  //TODO finish the child
+                  child: CardContent(threadDataType: thread)),
+            )));
+    }
+    return Container(
+        alignment: Alignment.center,
+        color: useMd3.flag?const Color(0xff1E1F22):null,
+        //color: const Color.fromARGB(255, 0xf3, 0xf3, 0xf7),
+        //width: Util.devWidth-20,
+        //height: ,
+        child: SizedBox(
+            width: Util().devWidth - 20,
+            child: Card(
+              elevation: 0,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  focusColor: const Color.fromARGB(255, 0xf3, 0xf3, 0xf7),
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(CupertinoPageRoute(builder: (context) {
                       return ThreadDetail(
                         tid: tid,
                         barName: thread.forumName,
@@ -166,16 +204,20 @@ class RecommendThreadItem extends StatelessWidget {
                   child: CardContent(threadDataType: thread)),
             )));
   }
+
 }
 
 class CardDivider extends StatelessWidget {
   const CardDivider({super.key});
   @override
   Widget build(BuildContext context) {
-    return Container(
+    if(!Util.isDarkMode(context)) {
+      return Container(
       height: 15,
       color: const Color.fromARGB(0xff, 0xf3, 0xf3, 0xf7),
-    );
+        );
+    }
+    return Container(height: 15,color: useMd3.flag?const Color(0xff1E1F22):null,);
   }
 }
 
@@ -265,8 +307,8 @@ class CardContent extends StatelessWidget {
             left: 57,
             child: Text(
               userName,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w600, color: mainTextColor),
+              style: TextStyle(
+                  fontWeight: FontWeight.w600, color: !Util.isDarkMode(context)?mainTextColor:const Color(0xfff0f0f0)),
             )), //昵称
         Positioned(
             top: 35,
@@ -300,8 +342,8 @@ class CardContent extends StatelessWidget {
             left: 57,
             child: Text(
               userName,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w600, color: mainTextColor),
+              style: TextStyle(
+                  fontWeight: FontWeight.w600, color: !Util.isDarkMode(context)?mainTextColor:const Color(0xffa0a0a0)),
             )), //昵称
       ];
     }
@@ -403,6 +445,7 @@ class CardContent extends StatelessWidget {
               imageUrlBuilder: (index) {
                 return imagesData[index];
               },
+
             );
             photoBrowser.push(context);
           },

@@ -30,11 +30,29 @@ class Util{
 
   };
   static Util? _util;
-  static final defaultLightColorScheme =
-  ColorScheme.fromSwatch(primarySwatch: Colors.blue);
+  static  ColorScheme defaultLightColorScheme = const ColorScheme(
+      brightness: Brightness.light,
+      primary: Color(0xff5d5d6c),
+      onPrimary: Color(0xff1a1b27),
+      secondary: Color(0xff5e5d67),
+      onSecondary: Color(0xff1a1b27),
+      error: Color(0xffba1a1a),
+      onError: Color(0xffba1a1a),
+      surface: Color(0xfffffbff),
+      onSurface: Color(0xff1c1b1d)
+  );
 
-  static final defaultDarkColorScheme = ColorScheme.fromSwatch(
-      primarySwatch: Colors.blue, brightness: Brightness.dark);
+  static  ColorScheme defaultDarkColorScheme = const ColorScheme(
+      brightness: Brightness.dark,
+      primary: Color(0xffc6c5d6),
+      onPrimary: Color(0xff2f2f3d),
+      secondary: Color(0xffc7c5d0),
+      onSecondary:  Color(0xff303038),
+      error: Color(0xffffb4ab),
+      onError:  Color(0xff690005),
+      surface: Color(0xff1c1b1d),
+      onSurface: Color(0xffe5e1e3)
+  );
   static void transparentSystemUI(){
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -44,6 +62,9 @@ class Util{
     gTime=geT;
     log("constructor called");
     _initWidthAndHeight();
+  }
+  static bool isDarkMode(BuildContext context) {
+    return Theme.of(context).colorScheme.brightness == Brightness.dark;
   }
 
   factory Util(){

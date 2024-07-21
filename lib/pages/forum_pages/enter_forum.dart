@@ -24,7 +24,7 @@ class ForumPageState extends State<StatefulWidget> {
   List<ThreadDataType> threads = [];
   ScrollController threadListController = ScrollController();
   List<Widget> items = [
-    Align(
+    const Align(
         alignment: Alignment.center,
         child: SizedBox(
             height: 200,
@@ -32,7 +32,7 @@ class ForumPageState extends State<StatefulWidget> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation(tiebaMainThemeColor),
                   backgroundColor: Colors.transparent,

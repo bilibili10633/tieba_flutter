@@ -22,10 +22,12 @@ class _ReplyFormState extends State<ReplyForm> {
   Widget build(BuildContext context) {
     log("tid=${widget.tid}.kw=${widget.kw}");
     return Container(
-        decoration: const BoxDecoration(color: Color(0xffffffff), boxShadow: [
+        decoration: BoxDecoration(
+            color: !Util.isDarkMode(context)?const Color(0xffffffff):Util.defaultDarkColorScheme.surface,
+            boxShadow: [
           BoxShadow(
-              color: Color(0x28CBCBCB),
-              offset: Offset(0, -1),
+              color: !Util.isDarkMode(context)?const Color(0x28CBCBCB):const Color(0x28000000),
+              offset: const Offset(0, -1),
               spreadRadius: 5,
               blurRadius: 5)
         ]),

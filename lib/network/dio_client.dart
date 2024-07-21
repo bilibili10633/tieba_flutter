@@ -22,12 +22,18 @@ class DioClient {
   factory DioClient() {
     return _instance;
   }
-  Future<String?> getInfo({required Uri uri}) async {
+  Future<String?> getInfo({required Uri uri,bool useClientUA=true}) async {
     if (!cookieManager.initialized) {
       await cookieManager.init();
     }
+    Map<String,String> httpHeader={
+      'cookie': "ka=open",
+      "User-Agent": useClientUA?"bdtb for Android 12.24.1.0":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      'connection': 'close',
+      "Accept-Encoding": "gzip",
+    };
     //获取存储对象
-    Response data =await _dio.getUri(uri, options: Options(followRedirects: true)).onError((error, stackTrace)async{
+    Response data =await _dio.getUri(uri, options: Options(followRedirects: true,headers:httpHeader)).onError((error, stackTrace)async{
       Future<Response<dynamic>> dd=Future(() => Response(requestOptions: RequestOptions()));  
       return dd;
     });
