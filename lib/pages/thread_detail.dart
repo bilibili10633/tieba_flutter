@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:chewie/chewie.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_browser/photo_browser.dart';
 import 'package:tieba/network/tieba_api_collection.dart';
@@ -224,6 +225,7 @@ class DetailPageState extends State<StatefulWidget> {
             log(content[j].toString());
         }
       }
+      var controller=PhotoBrowserController();
       if (images.isNotEmpty) {
         //帖子配图
         for (int k = 0; k < images.length; k++) {
@@ -247,6 +249,17 @@ class DetailPageState extends State<StatefulWidget> {
                         imageUrlBuilder: (index) {
                           return images[index];
                         },
+                        controller: controller,
+                        positionBuilders: [(ctx,index,total){
+                          return Positioned(
+                              left: 20,
+                              bottom: 20,
+                              child: CupertinoButton(
+                                onPressed: () {
+                                  Util.saveNetworkImage(images[index]);
+                                },
+                                child: const Icon(Icons.save),));
+                        }],
                       );
                       photoBrowser.push(context);
                     },

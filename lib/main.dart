@@ -12,12 +12,12 @@ import 'package:tieba/pages/forum_list_page.dart';
 import 'package:tieba/pages/notifications.dart';
 import 'package:tieba/pages/recommend_page.dart';
 import 'package:tieba/pages/search_page.dart';
+import 'package:toastification/toastification.dart';
 import 'Util.dart';
 
 UseMD3FlagObserver useMd3=UseMD3FlagObserver(true);
 
 void main() async{
-
   runApp(const MyApp());
   Util.transparentSystemUI();
 
@@ -47,16 +47,18 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return DynamicColorBuilder(builder: (lightColorScheme,darkColorScheme){
       log("Scheme========> $darkColorScheme");
-      return MaterialApp(
-        theme: ThemeData(
-            useMaterial3: useMd3.flag,
-            colorScheme: lightColorScheme??Util.defaultLightColorScheme
-        ),
-        darkTheme: ThemeData(
-            useMaterial3: useMd3.flag,
-            colorScheme: darkColorScheme??Util.defaultDarkColorScheme
-        ),
-        home: const TiebaHome(),
+      return ToastificationWrapper(
+          child: MaterialApp(
+            theme: ThemeData(
+                useMaterial3: useMd3.flag,
+                colorScheme: lightColorScheme??Util.defaultLightColorScheme
+            ),
+            darkTheme: ThemeData(
+                useMaterial3: useMd3.flag,
+                colorScheme: darkColorScheme??Util.defaultDarkColorScheme
+            ),
+            home: const TiebaHome(),
+          )
       );
     });
   }

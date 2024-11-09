@@ -2,9 +2,12 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:chewie/chewie.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 import 'package:video_player/video_player.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 const SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
@@ -66,6 +69,22 @@ class Util{
   static bool isDarkMode(BuildContext context) {
     return Theme.of(context).colorScheme.brightness == Brightness.dark;
   }
+  static saveNetworkImage(String url) async {
+    var response = await Dio().get(url,
+        options: Options(responseType: ResponseType.bytes));
+    final result = await ImageGallerySaver.saveImage(
+        Uint8List.fromList(response.data),
+        quality: 60,
+        name: "贴吧Flutter${DateTime.now()}");
+    if(result['isSuccess']){
+      Toastification().show(title: const Text("保存成功"),autoCloseDuration: const Duration(seconds: 2));
+    }else{
+      log(result.toString());
+      Toastification().show(title: Text("错误: ${result['errorMessage']}"),autoCloseDuration: const Duration(seconds: 2));
+    }
+    return result;
+  }
+
 
   factory Util(){
     if(!utilGet){

@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:awesome_image_selector/awesome_image_selector.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tieba/Util.dart';
 import 'package:tieba/network/dio_client.dart';
@@ -145,6 +147,19 @@ class MyDrawerHeaderState extends State<StatefulWidget> {
     return GestureDetector(
       onTap: () {
         onTapFunc(context);
+      },
+      onLongPress: (){
+        Navigator.push(context, CupertinoPageRoute(builder: (ctx)=>Scaffold(appBar:AppBar(),body: Center(child: AwesomeImageSelector(
+          onImageChanged: (XFile file) {
+            // Handle the changed image file here
+          },
+          // can be any image, network mostly
+          initialImage: const AssetImage('assets/akari.jpg'),
+          cardOuterMargin: const EdgeInsets.all(16.0), // optional
+          bgCardColor: Colors.grey[200],
+          selectText: 'Select Image',
+          changeText: 'Change Image',
+        ),),)));
       },
       child: UserAccountsDrawerHeader(
           decoration: const BoxDecoration(

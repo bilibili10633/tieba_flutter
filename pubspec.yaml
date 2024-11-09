@@ -42,6 +42,10 @@ dependencies:
   chewie: ^1.0.0
   video_player: ^2.0.0
   dynamic_color: ^1.6.3
+  image_gallery_saver: '^2.0.3'
+  toastification:
+  awesome_image_selector:
+
  # The following adds the Cupertino Icons font to your application.
  # Use with the CupertinoIcons class for iOS style icons.
  # cupertino_icons: ^1.0.2

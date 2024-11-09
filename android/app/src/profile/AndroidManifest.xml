@@ -5,5 +5,8 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <application android:usesCleartextTraffic="true" />
+    <application
+            android:usesCleartextTraffic="true"
+            android:requestLegacyExternalStorage="true"
+    />
 </manifest>
