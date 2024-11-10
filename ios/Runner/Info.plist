@@ -47,5 +47,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>APP需要你允许保存到相册</string>
+	<key>This is called Privacy</key>
+	<string>保存图片</string>
 </dict>
 </plist>
